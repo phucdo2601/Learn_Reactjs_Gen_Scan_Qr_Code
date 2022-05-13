@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import QRCode from "qrcode";
 import React, { useState } from "react";
-import { QrReader } from "react-qr-reader";
+import QrReader from "react-qr-reader";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "#3f51b5",
+    background: "#79e310",
     color: "#fff",
     padding: 20,
   },
@@ -137,7 +137,7 @@ function App() {
                 <Button
                   className={classes.btn}
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   onClick={onScanFile}
                 >
                   Scan Qr Code
@@ -145,32 +145,28 @@ function App() {
                 <QrReader
                   ref={qrRef}
                   delay={300}
-                  style={{
-                    width: "100%",
-                  }}
-                  onScan={handleScanFile}
+                  style={{ width: "100%" }}
                   onError={handleErrorFile}
+                  onScan={handleScanFile}
+                  // phai them legacy de co the connect de co the mo bang nut truy cap vao file may tinhs
+                  legacyMode
                 />
-                <h3>Scanned Code: {scanResultFile}</h3>
+                <h3>
+                  Scanned Code: <a href={scanResultFile}>{scanResultFile}</a>
+                </h3>
               </Grid>
               <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
                 <h3>Qr Code Scan by Web Cam</h3>
                 <QrReader
-                  onResult={(result, error) => {
-                    if (!!result) {
-                      setScanResultWebCam(result?.text);
-                    }
-
-                    if (!!error) {
-                      console.info(error);
-                    }
-                  }}
+                  delay={300}
                   style={{ width: "100%" }}
+                  onError={handleErrorWebCam}
+                  onScan={handleScanWebCam}
                 />
-                <p>
+                <h3>
                   Scanned Code on Web Cam:
                   <a href={scanResultWebCam}>{scanResultWebCam}</a>
-                </p>
+                </h3>
               </Grid>
             </Grid>
           </CardContent>
